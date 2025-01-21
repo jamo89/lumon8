@@ -1,47 +1,46 @@
-const topDesserts = [
-  {
-    id: "1",
-    title: "Tiramisu",
-    description: "The best tiramisu",
-    image: "https://picsum.photos/200/300/?random",
-    price: "$5.00",
-  },
-  {
-    id: "2",
-    title: "Lemon Ice Cream",
-    description: "Mind Blowing Taste",
-    image: "https://picsum.photos/200/300/?random",
-    price: "$4.50"
-  },
-  {
-    id: "3",
-    title: "Chocolate Mousse",
-    description: "Unexplored Flavor",
-    image: "https://picsum.photos/200/300/?random",
-    price: "$6.00",
-  },
-];
+import './index.css';
+import {useState} from "react";
+
+const ToDo = props => (
+    <tr>
+      <td>
+        <label>{props.id}</label>
+      </td>
+      <td>
+        <input />
+      </td>
+      <td>
+        <label>{props.createdAt}</label>
+      </td>
+    </tr>
+);
 
 function App() {
-  const listItems = topDesserts.map(dessert => {
-    console.log("DESSERT ",dessert)
-    const itemText = `${dessert.title} - ${dessert.price}`
-    return <li>{itemText}</li>
-  })
-   return (
-      <div>
-        <ul>
-          {listItems}
-        </ul>
-      </div>
-  );
+  const [todos, setTodos] = useState([{
+    id: `todo1`,
+    createdAt: `18:00`,
+  }, {
+    id: `todo2`,
+    createdAt: `20:30`,
+  }]);
+
+const reverseOrder = () => {
+  // Reverse is a mutative operation, so we need to create a new array first.
+  setTodos([...todos].reverse());
 }
 
-// const topDesserts = data.map(dessert => {
-//   return {
-//     content: `${dessert.title} - ${dessert.description} - ${dessert.image}`,
-//     price: dessert.price,
-//   }
-// })
-
+//first example with keys, show browser conole to see the warning.
+return (
+  <div>
+    <button onClick={reverseOrder}>Reverse</button>
+    <table>
+      <tbody>
+      {todos.map((todo, index) =>(
+          <ToDo id={todo.id} createdAt = {todo.createdAt} />
+      ))}
+      </tbody>
+    </table>
+  </div>
+);
+}
 export default App;
