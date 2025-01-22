@@ -29,14 +29,14 @@ const reverseOrder = () => {
   setTodos([...todos].reverse());
 }
 
-//first example with keys, show browser conole to see the warning.
+// first example with keys, show browser conole to see the warning.
 return (
   <div>
     <button onClick={reverseOrder}>Reverse</button>
     <table>
       <tbody>
       {todos.map((todo, index) =>(
-          <ToDo id={todo.id} createdAt = {todo.createdAt} />
+          <ToDo key={todo.id} id={todo.id} createdAt = {todo.createdAt} />
       ))}
       </tbody>
     </table>
