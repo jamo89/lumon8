@@ -1,46 +1,37 @@
-import './index.css';
+import "./App.css";
 import {useState} from "react";
 
-const ToDo = props => (
-    <tr>
-      <td>
-        <label>{props.id}</label>
-      </td>
-      <td>
-        <input />
-      </td>
-      <td>
-        <label>{props.createdAt}</label>
-      </td>
-    </tr>
-);
+function App () {
+    const [name, setName] = useState("");
 
-function App() {
-  const [todos, setTodos] = useState([{
-    id: `todo1`,
-    createdAt: `18:00`,
-  }, {
-    id: `todo2`,
-    createdAt: `20:30`,
-  }]);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setName("");
+        console.log("Form submitted!");
+    };
 
-const reverseOrder = () => {
-  // Reverse is a mutative operation, so we need to create a new array first.
-  setTodos([...todos].reverse());
+    return (
+        <div className="App">
+            <form onSubmit={handleSubmit}>
+                <fieldset>
+                    <div className="Field">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="name"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <button disabled={!name}type="submit">
+                        Submit
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    );
 }
 
-// first example with keys, show browser conole to see the warning.
-return (
-  <div>
-    <button onClick={reverseOrder}>Reverse</button>
-    <table>
-      <tbody>
-      {todos.map((todo, index) =>(
-          <ToDo key={todo.id} id={todo.id} createdAt = {todo.createdAt} />
-      ))}
-      </tbody>
-    </table>
-  </div>
-);
-}
 export default App;
