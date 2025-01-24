@@ -1,45 +1,60 @@
 import "./App.css";
-import {useState} from "react";
-
-function App () {
-    const [score, setScore] = useState("10");
-    const [comment, setComment] = useState("");
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (Number(score) <= 5 && comment.length <= 10) {
-            alert("fuck you mean less than 5? bro get the fuck outta here we don't want your business snobby ass");
-            return;
-        }
-
-        console.log("Form submitted");
-        setComment("");
-        setScore("10");
-    }
-
+import { UserProvider,useUser } from "./UserContext";
+console.log("Hello World");
+const LoggedInUser = () => {
+    const {user} = useUser();
+    console.log("USER",user);
     return (
+        <p>
+            Hello <span className="Username">{user.name}</span>
+        </p>
+    );
+};
+
+const Header = () => {
+    console.log("header")
+    return (
+        <header>
+            Jamo
+            <h2> Blog App</h2>
+            <LoggedInUser />
+        </header>
+    );
+};
+
+const Page = () => {
+    const { user } = useUser();
+    console.log("page");
+    return (
+        <div>
+            hello
+            <h2>What it is Lorem</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores eum ipsa itaque nesciunt nisi, quae! Adipisci cupiditate, iste modi molestiae mollitia nemo possimus quibusdam repellat, repellendus sit ullam, unde voluptates.
+            </p>
+            <p>Written by {user.name}</p>
+        </div>
+    );
+};
+
+function App() {
+    console.log("App")
+    return(
         <div className="App">
-            <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <h2>Feedback form</h2>
-                    <div className="Field">
-                        <label>Score: {score} </label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="10"
-                            value={score}
-                            onChange={e => setScore(e.target.value)}/>
-                    </div>
-                    <div className="Field">
-                        <label>Comment:</label>
-                        <textarea value={comment} onChange={e => setComment(e.target.value)}/>
-                    </div>
-                    <button type="submit">Submit</button>
-                </fieldset>
-            </form>
+            HELLO AGAIN
+            <Header />
+            <Page />
         </div>
     );
 }
 
-export default App;
+function Root() {
+    console.log("Root")
+    return (
+        <UserProvider>
+            <App />
+        </UserProvider>
+    );
+}
+
+export default Root;
