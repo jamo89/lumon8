@@ -1,51 +1,26 @@
 import React from "react";
+import './App.css';
 
-function GoalForm(props) {
-    const [formData, setFormData] = React.useState({goal: "", by: ""});
+function App() {
+    const [toggle, setToggle] = React.useState(false);
 
-    function changeHandler(e) {
-        setFormData({...formData, [e.target.name]: e.target.value});
+    const clickHandler = () => {
+        setToggle(!toggle);
     }
 
-    function submitHandler(e) {
-        e.preventDefault();
-        props.onAdd(formData);
-        setFormData({ goal: "", by: ""});
-    };
+    React.useEffect(() => {
+        document.title = toggle ? "Welcome to lil Lumon" : "Using the useEffect hook"
+    }, [toggle]);
 
     return (
-        <>
-            <h1>My Little Lumon Goals</h1>
-            <form onSubmit={submitHandler}>
-                <input type="text" name="goal" placeholder="Goal" value={formData.goal} onChange={changeHandler} />
-                <input type="text" name="by" placeholder="By..." value={formData.by} onChange={changeHandler} />
-                <button>Submit Goal</button>
-            </form>
-        </>
-    );
-}
-
-function ListOfGoals(props) {
-    return (
-        <ul>
-            {props.allGoals.map((g) => (
-                <li key={g.goal}>
-                    <span>My goal is to {g.goal}, by {g.by}</span>
-                </li>
-                ))}
-        </ul>
+        <div>
+            <h1>Using the useEffect hook</h1>
+            <button onClick={clickHandler}>
+                Toggle message
+            </button>
+            {toggle && <h2>Welcome to lil Lumon</h2>}
+        </div>
     )
 }
 
-export default function App () {
-    const [allGoals, updateAllGoals] = React.useState([]);
-
-    function addGoal(goal) {updateAllGoals([...allGoals, goal]);}
-
-    return (
-        <div className="App">
-            <GoalForm onAdd={addGoal} />
-            <ListOfGoals allGoals={allGoals} />
-        </div>
-    );
-}
+export default App;
