@@ -1,26 +1,27 @@
-import React from 'react';
+import {useReducer} from "react";
+import './App.css';
+
+const reducer = (state, action) => {
+    if(action.type === 'buy_ingredients') return{money: state.money - 10};
+    if(action.type === 'sell_a_meal') return{money: state.money + 10};
+    if(action.type === 'celebrity_visit') return{money: state.money + 5000};
+    return state;
+}
 
 function App() {
-    const [user, setUser] = React.useState([]);
 
-    const fetchData = () => {
-        fetch("https://randomuser.me/api/?results=1")
-            .then(response => response.json())
-            .then(data => setUser(data));
-    }
+    const initialState = {money: 100};
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    React.useEffect(() => {
-        fetchData();
-    },[]);
-
-    return Object.keys(user).length > 0 ? (
-        <div>
-            <h1>Data returned</h1>
-            <h2>First Name: {user.results[0].name.first}</h2>
-            <h2>Last Name: {user.results[0].name.last}</h2>
+    return (
+        <div className="App">
+            <h1>Wallet: {state.money}</h1>
+            <div>
+                <button onClick={() => dispatch({type: 'buy_ingredients'})}>Shopping for veggies!</button>
+                <button onClick={() => dispatch({type: 'sell_a_meal'})}>Serve a meal to the customer</button>
+                <button onClick={() => dispatch({type: 'celebrity_visit'})}>holy shit it's Jennifer Lawrence</button>
+            </div>
         </div>
-    ) : (
-        <h1>Data pending...</h1>
     );
 }
 
