@@ -1,27 +1,22 @@
-import {useReducer} from "react";
+import React from 'react';
 import './App.css';
 
-const reducer = (state, action) => {
-    if(action.type === 'buy_ingredients') return{money: state.money - 10};
-    if(action.type === 'sell_a_meal') return{money: state.money + 10};
-    if(action.type === 'celebrity_visit') return{money: state.money + 5000};
-    return state;
-}
-
 function App() {
+    const formInputRef = React.useRef(null);
 
-    const initialState = {money: 100};
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const focusInput = () => {
+        formInputRef.current.focus();
+    }
 
     return (
-        <div className="App">
-            <h1>Wallet: {state.money}</h1>
-            <div>
-                <button onClick={() => dispatch({type: 'buy_ingredients'})}>Shopping for veggies!</button>
-                <button onClick={() => dispatch({type: 'sell_a_meal'})}>Serve a meal to the customer</button>
-                <button onClick={() => dispatch({type: 'celebrity_visit'})}>holy shit it's Jennifer Lawrence</button>
-            </div>
-        </div>
+      <>
+          <h1>Using useRef to access underlying DOM</h1>
+          <input ref={formInputRef} type="text"/>
+          <input type="text"/>
+          <button onClick={focusInput}>
+              Focus input
+          </button>
+      </>
     );
 }
 
