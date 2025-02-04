@@ -1,38 +1,40 @@
-import * as React from 'react'; //7.5k (gzipped: 3k)
 import "./App.css";
 
-const Row = ({ children, spacing }) => {
-
-    const childStyle = {
-        marginLeft: `${spacing}px`,
-    };
-
+const Button = ({ type, children, ...buttonProps }) => {
+    const className = type === "primary" ? "PrimaryButton" : "PSecondaryButton";
     return (
-        <div className="Row">
-            {React.Children.map(children, (child, index) => {
-                return React.cloneElement(child, {
-                    style: {
-                        ...child.props.style,
-                        ...(index > 0 ? childStyle : {}),
-                    },
-                });
-            })}
-        </div>
+        <button className={`Button ${className}`} {...buttonProps}>
+            {children}
+        </button>
     );
 };
 
-function LiveOrders() {
+const LoginButton = ({ type, children, ...buttonProps }) => {
+    return (
+        <Button
+            type="secondary"
+            {...buttonProps}
+            onClick={() => {
+                alert("Logging in!");
+            }}
+            >
+            {children}
+        </Button>
+    );
+}
+
+function App() {
     return (
         <div className="App">
-            <Row spacing={32}>
-                <p>Pizza Margarita</p>
-                <p>2</p>
-                <p>30$</p>
-                <p>18:30</p>
-                <p>John</p>
-            </Row>
+            <header className="Header">Lil Lumon Restaurant</header>
+            <Button type="primary" onClick={() => alert("Signing up!")}>
+                Sign up
+            </Button>
+            <LoginButton type="secondary" onClick={() => alert("Signing up!")}>
+                Log in
+            </LoginButton>
         </div>
     );
 }
 
-export default LiveOrders;
+export default App;
