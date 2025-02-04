@@ -1,35 +1,38 @@
-import './App.css';
+import * as React from 'react'; //7.5k (gzipped: 3k)
+import "./App.css";
 
-const Button = ({children, backgroundColor}) =>{
-    return <button style={{ backgroundColor }}>{children}</button>
-};
+const Row = ({ children, spacing }) => {
 
-const Alert = ({children}) =>{
+    const childStyle = {
+        marginLeft: `${spacing}px`,
+    };
+
     return (
-        <>
-        <div className="Overlay"/>
-        <div className="Alert">{children}</div>
-        </>
+        <div className="Row">
+            {React.Children.map(children, (child, index) => {
+                return React.cloneElement(child, {
+                    style: {
+                        ...child.props.style,
+                        ...(index > 0 ? childStyle : {}),
+                    },
+                });
+            })}
+        </div>
     );
 };
 
-const DeleteButton =() => {
-    return <Button backgroundColor="red">Delete</Button>
-};
-
-function App() {
+function LiveOrders() {
     return (
         <div className="App">
-            <header>Lil Lumon Header</header>
-            <Alert>
-                <h4>Delete Account</h4>
-                <p>
-                    can you believe JLAW shopped here once? and you want to delete your account on this lemon restuarant you went through the effort of making an account for? why don't they just have you sign in with your google account? what the hell man
-                </p>
-                <DeleteButton />
-            </Alert>
+            <Row spacing={32}>
+                <p>Pizza Margarita</p>
+                <p>2</p>
+                <p>30$</p>
+                <p>18:30</p>
+                <p>John</p>
+            </Row>
         </div>
     );
 }
 
-export default App;
+export default LiveOrders;
