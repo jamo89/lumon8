@@ -1,68 +1,47 @@
 import "./App.css";
-import {useState, useEffect} from 'react' ;
+import { useEffect, useState } from "react";
 
-const withMousePosition = (WrappedComponent) => {
-    return (props) => {
+const DataFetcher = ({ render, url}) => {
+    const [data, setData] = useState([]);
 
-        const [mousePosition, setMousePosition] = useState({
-            x: 0,
-            y: 0,
-        })
+    useEffect(() => {
+        if (url.includes("desserts")) {
+            setData(["cake", "ice cream", "pie", "brownie", "banana's foster"])
+        } else {
+            setData(["water", "soda", "juice"]);
+        }
+    }, []);
 
-        useEffect(() => {
-            const handleMousePosition = (e) => {
-                setMousePosition({
-                    x: e.clientX,
-                    y: e.clientY,
-                });
-            };
-
-            window.addEventListener('mousemove', handleMousePosition);
-
-            return () => {
-                window.removeEventListener('mousemove', handleMousePosition);
-            }
-        },[]);
-
-        return <WrappedComponent {...props} mousePosition={mousePosition} />;
-    };
+    return render(data);
 };
 
-const PanelMouseLogger = ({ mousePosition }) => {
-    if (!mousePosition) {
-        return null;
-    }
+const DessertsCount = () => {
     return (
-        <div className="BasicTracker">
-            <p>Mouse position:</p>
-            <div className="Row">
-                <span>x: {mousePosition.x}</span>
-                <span>y: {mousePosition.y}</span>
-            </div>
-        </div>
+        <DataFetcher
+        url="https://littlelemon/desserts"
+        render={(data) =>{
+            console.log("data", data);
+            return<p> {data.length} desserts</p>
+        }}
+        />
     );
 };
 
-const PointMouseLogger = ({ mousePosition }) => {
-    if (!mousePosition) {
-        return null;
-    }
+const DrinksCount = () => {
     return (
-        <p>
-            ({mousePosition.x},{mousePosition.y})
-        </p>
+        <DataFetcher
+        url="https://littlelemon/drinks"
+        render={(data) => <h3> {data.length} drinks</h3>}
+        />
     );
 };
-
-const PanelMouseTracker = withMousePosition(PanelMouseLogger);
-const PointMouseTracker = withMousePosition(PointMouseLogger);
 
 function App() {
     return (
         <div className="App">
-            <header className="Header">Lil Lumon Resturant</header>
-            <PanelMouseTracker/>
-            <PointMouseTracker/>
+            <header className="Header">Lil Lumon Restaurant🍕</header>
+            <DessertsCount />
+            <DrinksCount />
         </div>
     );
 }
